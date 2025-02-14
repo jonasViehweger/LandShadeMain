@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* in your app.scss of laravel */
+.multiselect .multiselect__tags {
+    @apply dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300
+}
+
+.multiselect__tags .multiselect__single {
+    @apply dark:bg-gray-900
+}
+
+.multiselect .multiselect__input {
+    @apply dark:bg-gray-900
+}
+
+.multiselect .multiselect__content-wrapper {
+    @apply dark:bg-gray-900 dark:text-gray-300 dark:border-gray-800
+}
+
+.multiselect .multiselect__option--selected {
+    @apply dark:bg-gray-700 dark:text-gray-300
+}
