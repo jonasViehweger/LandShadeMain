@@ -5,10 +5,10 @@ definePageMeta({
 </script>
 
 <template>
-  <Container>
+  <Container class="flex flex-col items-center justify-center">
   <h1 class="text-6xl text-center sm:text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-green-700">
     LandShade
   </h1>
-  <ShapeSelector />
+  <ShapeSelector/>
 </Container>
 </template>

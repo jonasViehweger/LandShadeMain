@@ -1,25 +1,16 @@
 <template>
-  <div class="color-swatch-container">
-    <div v-if="title" class="text-center mb-2 text-gray-700 dark:text-gray-300">{{ title }}</div>
-    <div
-      class="color-swatch w-16 h-16 rounded cursor-pointer relative"
+  <div class="flex flex-col-reverse group size-40 rounded cursor-pointer relative"
       :style="{ backgroundColor: color.hex }"
-      @click="copyToClipboard"
-    >
-      <span
-        v-if="showHex"
-        class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-75 rounded"
-      >
-        {{ color.hex }}
-      </span>
+      @click="copyToClipboard">
+    <div v-if="title" class="m-2 text-white mix-blend-luminosity">
+      <p class="font-bold">{{ title }}</p>
+      <p class="group-hover:after:content-['_📋'] focus-within:after:content-['_copied!']">{{ color.hex }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
-const props = defineProps({
+defineProps({
   color: {
     type: Object,
     required: true,
@@ -30,19 +21,7 @@ const props = defineProps({
   },
 });
 
-const showHex = ref(false);
-
 const copyToClipboard = () => {
   navigator.clipboard.writeText(props.color.hex);
 };
 </script>
-
-<style scoped>
-.color-swatch:hover span {
-  display: flex;
-}
-
-.color-swatch span {
-  display: none;
-}
-</style>
