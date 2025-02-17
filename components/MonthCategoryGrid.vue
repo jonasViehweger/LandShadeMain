@@ -1,6 +1,6 @@
 <template>
     <!-- Header Row - Months -->
-    <div class="grid grid-cols-[200px_repeat(12,minmax(0,1fr))] gap-0 ">
+    <div class="grid grid-cols-[160px_repeat(12,minmax(0,5em))] gap-0 ">
       <div></div> <!-- Empty corner cell -->
       <div 
         v-for="month in 12" 
@@ -15,7 +15,7 @@
     <div 
       v-for="category in sortedCategories" 
       :key="category"
-      class="grid grid-cols-[200px_repeat(12,minmax(0,1fr))] gap-0"
+      class="grid grid-cols-[160px_repeat(12,5em)] gap-0"
     >
       <!-- Row Header -->
       <div class="text-s flex mr-3 items-center justify-end align-middle">
@@ -26,10 +26,11 @@
       <div
         v-for="month in 12"
         :key="month"
-        class="min-h-12 min-w-8 relative text-transparent"
+        class="min-h-12 min-w-6 relative group flex items-center justify-center"
         :style="getCellStyle(category, month)"
       >
-          {{ getCellColor(category, month) }}
+      <p class="bg-inherit bg-clip-text text-transparent invert grayscale contrast-[500] hidden group-hover:block">{{ getCellColor(category, month) }}</p>
+          
       </div>
     </div>
   </template>

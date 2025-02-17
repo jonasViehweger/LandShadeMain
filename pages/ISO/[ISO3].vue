@@ -54,7 +54,7 @@ const meanColors = Object.entries(landCoverColors).map(([landCover, { red, green
           Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(3,5), 16), 0) / meanColors.length),
           Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(5,7), 16), 0) / meanColors.length)
         )}"
-        class="size-84 flex flex-none"
+        class="size-84 mr-1"
       />
       <div class="flex-auto grid gap-4 grid-cols-5">
       
