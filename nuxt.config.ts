@@ -1,6 +1,9 @@
 import tailwindcss from "@tailwindcss/vite";
+import { countries } from './data/countries';
 
 export default defineNuxtConfig({
+  modules: ['@nuxtjs/sitemap'],
+  site: {  url: 'https://landshade.com',  name: 'LandShade - Average colors for countries computed from satellite data'  }, 
   app: {
     head: {
       bodyAttrs: {
@@ -8,6 +11,14 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: countries.map(item => `/ISO/${item.shapeGroup}`)
+    }
+  },
+
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
 

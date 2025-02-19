@@ -2,6 +2,26 @@
 definePageMeta({
   layout: "basic",
 });
+
+const metaTitle = "LandShade - Average colors for countries";
+const metaDescription = "Explore the average colors for countries around the world based on 20 years of satellite imagery.";
+
+// SEO Meta Configuration
+useHead({
+  title: metaTitle,
+  meta: [
+    { 
+      name: 'description', 
+      content: metaDescription
+    },
+    // Open Graph Tags
+    { property: 'og:title', content: metaTitle },
+    { property: 'og:description', content: metaDescription },
+    // Twitter Cards
+    { name: 'twitter:title', content: metaTitle },
+    { name: 'twitter:description', content: metaDescription }
+  ]
+});
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
+import { useHead } from '#imports';
 import { colors } from '@/data/colors'; // Assuming colors.js is imported here
 
 definePageMeta({
@@ -12,16 +13,41 @@ const ISO3Code = route.params.ISO3;
 const shapeName = colors
   .filter(color => color.shapeGroup === ISO3Code)[0].shapeName;
 
+// Get only the colors for the selected country
+const landColors = colors
+  .filter(color => color.shapeGroup === ISO3Code)
+
+const landCovers = [...new Set(landColors.map(color => color.landCover))];
+
+const metaTitle = `LandShade - ${shapeName} average colors`;
+const metaDescription = `The average colors for ${shapeName} based on 20 years of satellite imagery. This includes data for the following land cover: ${landCovers.join(', ')}.`;
+
+// SEO Meta Configuration
+useHead({
+  title: metaTitle,
+  meta: [
+    { 
+      name: 'description', 
+      content: metaDescription,
+    },
+    // Open Graph Tags
+    { property: 'og:title', content: metaTitle },
+    { property: 'og:description', content: metaDescription},
+    // Twitter Cards
+    { name: 'twitter:title', content: metaTitle },
+    { name: 'twitter:description', content: metaDescription }
+  ]
+});
+
 // Function to convert RGB to HEX
 const rgbToHex = (r, g, b) => {
   const toHex = (c) => c.toString(16).padStart(2, '0');
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-// Group colors by landCover and calculate mean RGB values
-const landColors = colors
-  .filter(color => color.shapeGroup === ISO3Code)
 
+
+// Group colors by landCover and calculate mean RGB values
 const landCoverColors = landColors
   .reduce((acc, color) => {
     if (!acc[color.landCover]) {
@@ -70,7 +96,7 @@ const meanColors = Object.entries(landCoverColors).map(([landCover, { red, green
     
   </div>
 
-<h2 class="text-6xl font-bold my-5 text-gray-900 dark:text-gray-100">Entire year</h2>
+<h2 class="text-6xl font-bold my-5 text-gray-900 dark:text-gray-300">Entire year</h2>
 
   <MonthCategoryGrid :data="landColors" />
 </template>
