@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { countries } from './data/countries';
 
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/sitemap'],
+  modules: ['@nuxtjs/sitemap', 'nuxt-og-image'],
   site: {  url: 'https://landshade.com',  name: 'LandShade - Average colors for countries computed from satellite data'  }, 
   app: {
     head: {

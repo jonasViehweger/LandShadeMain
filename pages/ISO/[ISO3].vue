@@ -64,6 +64,15 @@ const meanColors = Object.entries(landCoverColors).map(([landCover, { red, green
   landCover,
   hex: rgbToHex(Math.round(Math.sqrt(red / count)), Math.round(Math.sqrt(green / count)), Math.round(Math.sqrt(blue / count))),
 })).sort((a, b) => a.landCover.localeCompare(b.landCover));;
+
+const totalMean = rgbToHex(
+          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(1,3), 16), 0) / meanColors.length),
+          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(3,5), 16), 0) / meanColors.length),
+          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(5,7), 16), 0) / meanColors.length)
+        )
+
+defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, color: { hex: totalMean}})
+
 </script>
 
 <template>
@@ -75,11 +84,7 @@ const meanColors = Object.entries(landCoverColors).map(([landCover, { red, green
     <div class="flex gap-4">
       <ColorSwatch
         :title="'Total Mean Color'"
-        :color="{ hex: rgbToHex(
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(1,3), 16), 0) / meanColors.length),
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(3,5), 16), 0) / meanColors.length),
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(5,7), 16), 0) / meanColors.length)
-        )}"
+        :color="{ hex: totalMean}"
         class="size-84 mr-1"
       />
       <div class="flex-auto grid gap-4 grid-cols-5">
