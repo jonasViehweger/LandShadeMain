@@ -1,5 +1,5 @@
 <template>
-<div class="w-100">
+<div class="sm:w-100 mb-5 w-full">
     <label for="shape-select">Select a Country:</label>
     <multiselect
         id="shape-select"

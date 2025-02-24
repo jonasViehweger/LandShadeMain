@@ -77,24 +77,24 @@ defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, colo
 
 <template>
   <div>
-    <div class="flex flex-row justify-between items-start">
+    <div class="flex sm:flex-row flex-col justify-between items-start">
       <CountryTitle :title="shapeName" :colors="meanColors.map(color => color.hex).slice(0, 3)" />
       <ShapeSelector/>
     </div>
-    <div class="flex gap-4">
+    <div class="flex flex-col sm:flex-row gap-4">
       <ColorSwatch
         :title="'Total Mean Color'"
         :color="{ hex: totalMean}"
-        class="size-84 mr-1"
+        class="w-full aspect-square sm:size-84 mr-1"
       />
-      <div class="flex-auto grid gap-4 grid-cols-5">
+      <div class="flex-auto grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       
       <ColorSwatch
         v-for="color in meanColors"
         :title="color.landCover"
         :key="color.landCover"
         :color="{ hex: color.hex }"
-        class="size-32"
+        class="w-full aspect-square "
       />
     </div>
     </div>

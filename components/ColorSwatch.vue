@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col-reverse group size-40 rounded relative"
+  <div class="flex flex-col-reverse group rounded relative"
       :style="{ backgroundColor: color.hex }"
       @click="copyToClipboard">
     <div v-if="title" class="m-2 text-white mix-blend-luminosity">
