@@ -102,6 +102,7 @@ defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, colo
   </div>
 
 <h2 class="text-6xl font-bold my-5 text-gray-900 dark:text-gray-300">Entire year</h2>
-
+<div class="overflow-auto">
   <MonthCategoryGrid :data="landColors" />
+</div>
 </template>
