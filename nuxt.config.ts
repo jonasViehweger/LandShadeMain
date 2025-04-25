@@ -1,5 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
-import { countries } from './data/countries';
+import countries from './assets/countries.json';
 
 export default defineNuxtConfig({
   modules: ['@nuxtjs/sitemap', 'nuxt-og-image'],
@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: countries.map(item => `/ISO/${item.shapeGroup}`)
+      routes: Object.values(countries).map(item => `/ISO/${item}`)
     }
   },
 
