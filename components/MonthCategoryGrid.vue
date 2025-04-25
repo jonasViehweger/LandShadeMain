@@ -46,21 +46,8 @@
   
     computed: {
       sortedCategories() {
-        return [...new Set(this.data.map(item => item.landCover))].sort();
+        return Object.keys(this.data).sort();
       },
-  
-      colorMap() {
-        const map = {};
-        this.data.forEach(item => {
-          if (!map[item.landCover]) map[item.landCover] = {};
-          map[item.landCover][item.month] = {
-            red: item.red,
-            green: item.green,
-            blue: item.blue
-          };
-        });
-        return map;
-      }
     },
   
     methods: {
@@ -68,22 +55,19 @@
         const date = new Date(2000, monthNumber - 1, 1);
         return date.toLocaleString('default', { month: 'short' });
       },
-  
-      rgbToHex(r, g, b) {
-        return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
-      },
+
   
       getCellStyle(category, month) {
-        const color = this.colorMap[category]?.[month];
+        const color = reflectanceToSRGB(this.data[category][month-1]);
         return color 
           ? { backgroundColor: `rgb(${color.red}, ${color.green}, ${color.blue})`, color: 'white'} 
           : { backgroundColor: '#f3f4f600', color: '#f3f4f600' };
       },
   
       getCellColor(category, month) {
-        const color = this.colorMap[category]?.[month];
+        const color = this.data[category][month-1];
         return color 
-          ? this.rgbToHex(color.red, color.green, color.blue) 
+          ? reflectanceColorToHex(color) 
           : '';
       }
     }

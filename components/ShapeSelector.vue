@@ -13,17 +13,17 @@
 <script setup>
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import Multiselect from 'vue-multiselect';
-import { colors } from "@/data/colors";
+import countries from "@/assets/countries.json";
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const selectedShape = ref(null);
 const router = useRouter();
 
-const uniqueShapeNames = computed(() => [...new Set(colors.map((item) => item.shapeName))].sort());
+const uniqueShapeNames = computed(() => Object.keys(countries));
 
 const navigateToShapeGroup = () => {
-    const shapeGroup = colors.find(item => item.shapeName === selectedShape.value)?.shapeGroup;
+    const shapeGroup = countries[selectedShape.value];
     if (shapeGroup) {
         router.push(`/ISO/${shapeGroup}`);
     }

@@ -1,7 +1,9 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useHead } from '#imports';
-import { colors } from '@/data/colors'; // Assuming colors.js is imported here
+import  colors  from '@/assets/colors.json'; 
+import countries from '@/assets/countries.json';
+import { reflectanceColorToHex, reflectanceToSRGB } from '@/utils/reflectanceColorToHex';
 
 definePageMeta({
   layout: 'basic', // Use the 'country' layout
@@ -10,14 +12,26 @@ definePageMeta({
 const route = useRoute();
 const ISO3Code = route.params.ISO3;
 
-const shapeName = colors
-  .filter(color => color.shapeGroup === ISO3Code)[0].shapeName;
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
+const shapeName = getKeyByValue(countries, ISO3Code)
 
 // Get only the colors for the selected country
-const landColors = colors
-  .filter(color => color.shapeGroup === ISO3Code)
+const landColors = colors[ISO3Code]
 
-const landCovers = [...new Set(landColors.map(color => color.landCover))];
+const meanColors = Object.fromEntries(
+  Object.entries(landColors["total"]).map(
+    ([landCover, rgbObject]) => [landCover, reflectanceColorToHex(rgbObject)]
+  )
+);
+
+// "Pop" key1
+const totalMean = meanColors["Total Mean Color"]; // access
+delete meanColors["Total Mean Color"];        // delete
+
+const landCovers = Object.keys(meanColors).sort()
 
 const metaTitle = `LandShade - ${shapeName} average colors`;
 const metaDescription = `The average colors for ${shapeName} based on 20 years of satellite imagery. This includes data for the following land cover: ${landCovers.join(', ')}.`;
@@ -39,38 +53,6 @@ useHead({
   ]
 });
 
-// Function to convert RGB to HEX
-const rgbToHex = (r, g, b) => {
-  const toHex = (c) => c.toString(16).padStart(2, '0');
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-};
-
-
-
-// Group colors by landCover and calculate mean RGB values
-const landCoverColors = landColors
-  .reduce((acc, color) => {
-    if (!acc[color.landCover]) {
-      acc[color.landCover] = { red: 0, green: 0, blue: 0, count: 0 };
-    }
-    acc[color.landCover].red += Math.pow(color.red, 2);
-    acc[color.landCover].green += Math.pow(color.green, 2);
-    acc[color.landCover].blue += Math.pow(color.blue, 2);
-    acc[color.landCover].count += 1;
-    return acc;
-  }, {});
-
-const meanColors = Object.entries(landCoverColors).map(([landCover, { red, green, blue, count }]) => ({
-  landCover,
-  hex: rgbToHex(Math.round(Math.sqrt(red / count)), Math.round(Math.sqrt(green / count)), Math.round(Math.sqrt(blue / count))),
-})).sort((a, b) => a.landCover.localeCompare(b.landCover));;
-
-const totalMean = rgbToHex(
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(1,3), 16), 0) / meanColors.length),
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(3,5), 16), 0) / meanColors.length),
-          Math.round(meanColors.reduce((sum, c) => sum + parseInt(c.hex.slice(5,7), 16), 0) / meanColors.length)
-        )
-
 defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, color: { hex: totalMean}})
 
 </script>
@@ -78,7 +60,7 @@ defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, colo
 <template>
   <div>
     <div class="flex sm:flex-row flex-col justify-between items-start">
-      <CountryTitle :title="shapeName" :colors="meanColors.map(color => color.hex).slice(0, 3)" />
+      <CountryTitle :title="shapeName" :colors="Object.values(meanColors).slice(0, 3)" />
       <ShapeSelector/>
     </div>
     <div class="flex flex-col sm:flex-row gap-4">
@@ -90,10 +72,10 @@ defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, colo
       <div class="flex-auto grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       
       <ColorSwatch
-        v-for="color in meanColors"
-        :title="color.landCover"
-        :key="color.landCover"
-        :color="{ hex: color.hex }"
+        v-for="landCover in landCovers"
+        :title="landCover"
+        :key="landCover"
+        :color="{ hex: meanColors[landCover] }"
         class="w-full aspect-square "
       />
     </div>
@@ -103,6 +85,6 @@ defineOgImageComponent("ColorSwatch", {title: "Mean Color of " + shapeName, colo
 
 <h2 class="text-6xl font-bold my-5 text-gray-900 dark:text-gray-300">Entire year</h2>
 <div class="overflow-auto">
-  <MonthCategoryGrid :data="landColors" />
+  <MonthCategoryGrid :data="landColors['monthly']" />
 </div>
 </template>
