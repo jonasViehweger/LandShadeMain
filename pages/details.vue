@@ -17,7 +17,7 @@ definePageMeta({
   <h2 class="mt-8 text-4xl font-extrabold">1. Colors are complicated</h2>
   <p class="mt-2 text-gray-300">
     What the satellites record is raw reflectance. This is in a certain spectral band (like red, green and blue) how much of the suns light is reflected off a single area of land from 0-100%. 
-    Our eyes are also sensors which are not at all compatible with scientific sensors used on satellites. So to get from actual red, green and blue reflectance values that we can display on a computer screen and which are close to what a human would see if they were shot into orbit we need to use a conversion formula.
+    Our eyes are also sensors which are not at all compatible with scientific sensors used on satellites. So to get from actual red, green and blue reflectance values to colors that we can display on a computer screen and which are close to what a human would see if they were shot into orbit, we need to use a conversion formula.
   </p>
   <p class="mt-2 text-gray-300">
     I used the formula which was used to compute 
@@ -36,7 +36,7 @@ definePageMeta({
     in particular the Annual International Geosphere-Biosphere Programme (IGBP) classification. This is a classification derived from the raw satellite data that I also used to collect the colors.
   </p>
   <p class="mt-2 text-gray-300">
-    This classification and the reflectance data I'm using is at 500m resolution, so everything gets a bit muddled. That's why water areas and urban areas look the way they do. They are mixed up with lots of other stuff. Also the Land Cover classification is anything but perfect.
+    This classification and the reflectance data I'm using is at 500m resolution, so everything gets a bit muddled. That's why water areas and urban areas look the way they do. They are mixed up with lots of other stuff. To add to it the Land Cover classification is anything but perfect, loads of areas are misclassified but on a global scope the hope is that it all evens out somehow.
   </p>
 
 
