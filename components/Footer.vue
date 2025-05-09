@@ -9,7 +9,7 @@
         class="hover:underline"
       >
         Jonas
-      </a>
+      </a>  with ❤️
     </p>
   </footer>
 </template>
